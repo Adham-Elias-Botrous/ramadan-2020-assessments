@@ -29,12 +29,6 @@ app.get('/video-request', async (req, res, next) => {
   next();
 });
 
-app.put('/video-request', async (req, res, next) => {
-  const response = await VideoRequestData.updateRequest(req.body.id, req.body);
-  res.send(response);
-  next();
-});
-
 app.get('/users', async (req, res, next) => {
   const response = await UserData.getAllUsers(req.body);
   res.send(response);
@@ -52,6 +46,14 @@ app.use(express.json());
 app.put('/video-request/vote', async (req, res, next) => {
   const { id, vote_type } = req.body;
   const response = await VideoRequestData.updateVoteForRequest(id, vote_type);
+  res.send(response);
+  next();
+});
+
+app.put('/video-request', async (req, res, next) => {
+  const { id, status, resVideo } = req.body;
+
+  const response = await VideoRequestData.updateRequest(id, status, resVideo);
   res.send(response);
   next();
 });
